@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: goat-gideon-tls
+  namespace: goat-gideon
+spec:
+  secretName: goat-gideon-tls
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  dnsNames:
+    - criminal-minds.inevitable.fyi

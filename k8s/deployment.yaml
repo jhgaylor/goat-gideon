@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goat-gideon
+  namespace: goat-gideon
+  labels:
+    app: goat-gideon
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: goat-gideon
+  template:
+    metadata:
+      labels:
+        app: goat-gideon
+    spec:
+      containers:
+        - name: web
+          # Pinned to an immutable sha tag by .github/workflows/build.yml on
+          # every push to main; Flux picks up the manifest change and rolls.
+          image: ghcr.io/jhgaylor/goat-gideon:sha-f5dc0eacdce685f7a7995d997f7a73d95b994b14
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              memory: 64Mi

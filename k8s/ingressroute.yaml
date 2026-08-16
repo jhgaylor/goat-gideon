@@ -1,0 +1,38 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: goat-gideon
+  namespace: goat-gideon
+  labels:
+    app: goat-gideon
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: "Host(`criminal-minds.inevitable.fyi`)"
+      kind: Rule
+      services:
+        - name: goat-gideon
+          port: 80
+  tls:
+    secretName: goat-gideon-tls
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: goat-gideon-http
+  namespace: goat-gideon
+  labels:
+    app: goat-gideon
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: "Host(`criminal-minds.inevitable.fyi`)"
+      kind: Rule
+      middlewares:
+        - name: redirect-https
+          namespace: default
+      services:
+        - name: goat-gideon
+          port: 80

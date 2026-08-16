@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Criminal Minds Across the Eras — Episode Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+posthog.init('phc_tyoyKvG3o9BVFZjZB3Pg3Dxe5d3NUVMy2RMRXpbGT9U9', {api_host: 'https://us.i.posthog.com', defaults: '2025-05-24', person_profiles: 'identified_only', autocapture: false});
+</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <h1><span class="t1">CRIMINAL MINDS</span> <span class="t2">Across the Eras</span></h1>
+    <p class="sub">Pick an era, a BAU roster, a serial-arc UnSub, a recurring character or a vibe — and find the episodes to rewatch. Covers the original run and <em>Evolution</em>. Episode data via TVmaze.</p>
+  </div>
+</header>
+
+<section class="chart-wrap" id="chartWrap">
+  <div class="chart-toolbar">
+    <div class="legend-hint">Click any bar to filter episodes by that era. Click a season number to filter by season. Shift-click to combine.</div>
+    <div class="chart-actions">
+      <button id="clearEra" class="btn ghost" hidden>✕ clear era filter</button>
+      <button id="toggleChart" class="btn ghost">Collapse chart</button>
+    </div>
+  </div>
+  <div class="chart-scroll">
+    <div class="chart" id="chart"></div>
+  </div>
+</section>
+
+<main class="layout">
+  <div class="mobile-bar">
+    <input id="searchMobile" type="search" placeholder="Search episodes…" autocomplete="off">
+    <button id="openDrawer" class="btn">Filters<span class="n" id="filterCount" hidden></span></button>
+  </div>
+  <aside class="filters" id="filters">
+    <div class="filter-head">
+      <h2>Filters</h2>
+      <button id="resetAll" class="btn ghost small">Reset</button>
+    </div>
+
+    <label class="search">
+      <input id="search" type="search" placeholder="Search title, summary, character…" autocomplete="off">
+    </label>
+
+    <div class="fgroup">
+      <div class="fgroup-title">Seasons</div>
+      <div id="seasonChips" class="chips seasons"></div>
+    </div>
+
+    <div class="fgroup">
+      <div class="fgroup-title">Vibes</div>
+      <div id="tagChips" class="chips"></div>
+    </div>
+
+    <div class="fgroup">
+      <div class="fgroup-title">Guest character <span class="muted">(min. 2 eps)</span></div>
+      <select id="charSelect"><option value="">Anyone</option></select>
+      <div class="muted tiny">The BAU regulars (Hotch, Reid, Morgan, Garcia, JJ, Prentiss, Rossi, Gideon, Elle, Alvez, Tara, Simmons…) aren't listed per-episode — use the roster rows on the chart for them.</div>
+    </div>
+
+    <div class="fgroup">
+      <div class="fgroup-title">Rating &amp; sort</div>
+      <label class="row"><span>Min rating</span><input id="minRating" type="range" min="0" max="9.5" step="0.1" value="0"><output id="minRatingOut">any</output></label>
+      <label class="row"><span>Sort</span>
+        <select id="sort">
+          <option value="air">Air order</option>
+          <option value="rating">Rating (high → low)</option>
+          <option value="airdesc">Newest first</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="fgroup">
+      <div class="fgroup-title">Watched</div>
+      <label class="row check"><input type="checkbox" id="hideWatched"> Hide watched</label>
+      <label class="row check"><input type="checkbox" id="onlyWatched"> Only watched</label>
+      <div class="muted tiny" id="watchedCount"></div>
+    </div>
+
+    <button id="surprise" class="btn primary wide">🎲 Surprise me</button>
+  </aside>
+  <div class="drawer-foot">
+    <button id="closeDrawer" class="btn primary">Show <span id="drawerCount"></span> episodes</button>
+  </div>
+
+  <section class="results">
+    <div class="results-head">
+      <div id="resultCount" class="count"></div>
+      <div id="activeFilters" class="active"></div>
+    </div>
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty" hidden>Nothing matches. Loosen a filter or hit Reset.</div>
+  </section>
+</main>
+
+<div id="modal" class="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<footer class="foot">Fan-made rewatch tool. Not affiliated with The CW / Warner Bros. Episode metadata &amp; images © TVmaze contributors. Era chart by FTWinchester.</footer>
+
+<script src="data/eras.js"></script>
+<script src="data/tags.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
